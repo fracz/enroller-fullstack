@@ -4,14 +4,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -35,9 +32,7 @@ public class Meeting {
 	private String date;
 
 	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "meeting_participant", joinColumns = { @JoinColumn(name = "meeting_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "participant_login") })
+	@ManyToMany(mappedBy = "meetings")
 	Set<Participant> participants = new HashSet<>();
 
 	public long getId() {
@@ -71,15 +66,15 @@ public class Meeting {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
 	public void addParticipant(Participant participant) {
 		this.participants.add(participant);
 	}
-	
+
 	public void removeParticipant(Participant participant) {
 		this.participants.remove(participant);
 	}
-	
+
 	public Collection<Participant> getParticipants() {
 		return participants;
 	}
