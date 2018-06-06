@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <label>Zaloguj się e-mailem</label>
-    <input type="email" v-model="email">
-    <button @click="enter()">{{ buttonLabel }}</button>
-  </div>
+  <form @submit.prevent="enter()">
+    <label>Login</label>
+    <input type="text" v-model="user.login">
+    <label>Hasło</label>
+    <input type="password" v-model="user.password">
+    <button type="submit">{{ labelOfTheButton }}</button>
+  </form>
 </template>
 
 <script>
@@ -11,17 +13,17 @@
         props: ["buttonLabel"],
         data() {
             return {
-                email: ""
+                user: {}
             };
         },
         methods: {
             enter() {
-                this.$emit("login", this.email);
+                this.$emit("login", this.user);
             }
         },
-        mounted() {
-            if (!this.buttonLabel) {
-                this.buttonLabel = "Zaloguj się";
+        computed: {
+            labelOfTheButton() {
+                return this.buttonLabel || 'Zaloguj się';
             }
         }
     };

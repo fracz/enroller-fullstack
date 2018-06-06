@@ -1,15 +1,14 @@
 <template>
   <div id="app">
     <h1>System do zapisów na zajęcia</h1>
-    <div v-if="!auth">
-      <login-form @login="enter($event)"></login-form>
-    </div>
-    <div v-show="auth">
-      <h2>Witaj {{ auth }}!
+    <div v-if="authenticatedUsername">
+      <h2>Witaj {{ authenticatedUsername }}!
         <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
       </h2>
-
-      <meetings-page :username="auth"></meetings-page>
+      <meetings-page :username="authenticatedUsername"></meetings-page>
+    </div>
+    <div v-else>
+      <login-form @login="login($event)"></login-form>
     </div>
   </div>
 </template>
@@ -23,15 +22,15 @@
         components: {LoginForm, MeetingsPage},
         data() {
             return {
-                auth: ""
+                authenticatedUsername: ""
             };
         },
         methods: {
-            enter(user) {
-                this.auth = user;
+            login(user) {
+                this.authenticatedUsername = user.login;
             },
             logout() {
-                this.auth = '';
+                this.authenticatedUsername = '';
             }
         }
     };
