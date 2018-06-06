@@ -96,6 +96,74 @@
 					<check />
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<configuration>
+					<workingDirectory>src/main/frontend</workingDirectory>
+				</configuration>
+				<version>1.6</version>
+				<executions>
+					<!-- Install our node and npm version to run npm/node scripts-->
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v9.11.1</nodeVersion>
+						</configuration>
+					</execution>
+					<!-- Install all project dependencies -->
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<!-- optional: default phase is "generate-resources" -->
+						<phase>generate-resources</phase>
+						<!-- Optional configuration which provides for running any npm command -->
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<!-- Build and minify static files -->
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy Vue.js frontend content</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/resources/public</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/frontend</directory>
+                                    <includes>
+                                        <include>dist/</include>
+                                        <include>index.html</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
