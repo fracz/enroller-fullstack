@@ -6,21 +6,21 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 public class HibernateUtil {
 
-	private static SessionFactory sessionFactory;
-	
-	static{
-		try {
-			sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private static SessionFactory sessionFactory;
 
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+    static {
+        try {
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static void shutdown() {
-		getSessionFactory().close();
-	}
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public static void shutdown() {
+        getSessionFactory().close();
+    }
 }

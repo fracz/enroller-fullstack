@@ -4,29 +4,29 @@ import org.hibernate.Session;
 
 public class DatabaseConnector {
 
-	protected static DatabaseConnector instance = null;
+    protected static DatabaseConnector instance = null;
 
-	public static DatabaseConnector getInstance() {
-		if (instance == null) {
-			instance = new DatabaseConnector();
-		}
-		return instance;
-	}
+    public static DatabaseConnector getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnector();
+        }
+        return instance;
+    }
 
-	private Session session;
+    private Session session;
 
-	private DatabaseConnector() {
-		session = HibernateUtil.getSessionFactory().openSession();
-	}
+    private DatabaseConnector() {
+        session = HibernateUtil.getSessionFactory().openSession();
+    }
 
-	public void teardown() {
-		session.close();
-		HibernateUtil.shutdown();
-		instance = null;
-	}
+    public void teardown() {
+        session.close();
+        HibernateUtil.shutdown();
+        instance = null;
+    }
 
-	public Session getSession() {
-		return session;
-	}
+    public Session getSession() {
+        return session;
+    }
 
 }
