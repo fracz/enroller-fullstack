@@ -11,7 +11,10 @@
       <meetings-page :username="authenticatedUsername"></meetings-page>
     </div>
     <div v-else>
-      <login-form @login="login($event)"></login-form>
+      <button @click="registering = false" :class="registering ? 'button-outline' : ''">Loguję się</button>
+      <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Rejestruję się</button>
+      <div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message">{{ message }}</div>
+      <login-form @submit="registering ? register($event) : login($event)" :button-label="loginButtonLabel"></login-form>
     </div>
   </div>
 </template>
@@ -25,21 +28,50 @@
         components: {LoginForm, MeetingsPage},
         data() {
             return {
-                authenticatedUsername: ""
+                authenticatedUsername: "",
+                registering: false,
+                message: '',
+                isError: false
             };
         },
         methods: {
+            register(user) {
+                this.clearMessage();
+                this.$http.post('participants', user)
+                    .then(() => {
+                        this.success('Konto zostało założone. Możesz się zalogować.');
+                        this.registering = false;
+                    })
+                    .catch(response => this.failure('Błąd przy zakładaniu konta. Kod odpowiedzi: ' + response.status));
+            },
             login(user) {
+                this.clearMessage();
                 this.authenticatedUsername = user.login;
             },
             logout() {
                 this.authenticatedUsername = '';
+            },
+            success(message) {
+                this.message = message;
+                this.isError = false;
+            },
+            failure(message) {
+                this.message = message;
+                this.isError = true;
+            },
+            clearMessage() {
+                this.message = undefined;
+            }
+        },
+        computed: {
+            loginButtonLabel() {
+                return this.registering ? 'Zarejestruj się' : 'Zaloguj się';
             }
         }
     };
 </script>
 
-<style>
+<style lang="scss">
   #app {
     max-width: 1000px;
     margin: 0 auto;
@@ -48,5 +80,21 @@
   .logo {
     vertical-align: middle;
   }
+
+  .alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    &-success {
+      background: lightgreen;
+      border-color: darken(lightgreen, 10%);
+    }
+    &-error {
+      background: indianred;
+      border-color: darken(indianred, 10%);
+      color: white;
+    }
+  }
+
 </style>
 
