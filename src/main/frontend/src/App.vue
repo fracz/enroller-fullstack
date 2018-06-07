@@ -23,6 +23,7 @@
     import "milligram";
     import LoginForm from "./LoginForm";
     import MeetingsPage from "./meetings/MeetingsPage";
+    import Vue from "vue";
 
     export default {
         components: {LoginForm, MeetingsPage},
@@ -47,13 +48,22 @@
             login(user) {
                 this.clearMessage();
                 this.$http.post('tokens', user)
-                    .then(() => {
-                        this.authenticatedUsername = user.login;
+                    .then(response => {
+                        const token = response.body.token;
+                        this.storeAuth(user.login, token);
                     })
                     .catch(() => this.failure('Logowanie nieudane.'));
             },
+            storeAuth(username, token) {
+                this.authenticatedUsername = username;
+                Vue.http.headers.common.Authorization = 'Bearer ' + token;
+                localStorage.setItem('username', username);
+                localStorage.setItem('token', token);
+            },
             logout() {
                 this.authenticatedUsername = '';
+                delete Vue.http.headers.common.Authorization;
+                localStorage.clear();
             },
             success(message) {
                 this.message = message;
@@ -65,6 +75,15 @@
             },
             clearMessage() {
                 this.message = undefined;
+            }
+        },
+        mounted() {
+            const username = localStorage.getItem('username');
+            const token = localStorage.getItem('token');
+            if (username && token) {
+                this.storeAuth(username, token);
+                // if token expired or user has been deleted - logout!
+                this.$http.get(`participants/${username}`).catch(() => this.logout());
             }
         },
         computed: {
