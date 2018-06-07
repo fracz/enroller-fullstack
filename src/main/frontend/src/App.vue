@@ -46,7 +46,11 @@
             },
             login(user) {
                 this.clearMessage();
-                this.authenticatedUsername = user.login;
+                this.$http.post('tokens', user)
+                    .then(() => {
+                        this.authenticatedUsername = user.login;
+                    })
+                    .catch(() => this.failure('Logowanie nieudane.'));
             },
             logout() {
                 this.authenticatedUsername = '';
