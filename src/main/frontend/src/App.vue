@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <h1>System do zapisów na zajęcia</h1>
+    <h1>
+      <img src="./assets/logo.svg" alt="Enroller" class="logo">
+      System do zapisów na zajęcia
+    </h1>
     <div v-if="authenticatedUsername">
       <h2>Witaj {{ authenticatedUsername }}!
         <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
@@ -40,6 +43,10 @@
   #app {
     max-width: 1000px;
     margin: 0 auto;
+  }
+
+  .logo {
+    vertical-align: middle;
   }
 </style>
 
