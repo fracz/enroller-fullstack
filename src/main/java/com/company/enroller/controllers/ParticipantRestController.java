@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/api/participants")
+@RequestMapping("api/participants")
 public class ParticipantRestController {
 
     @Autowired
@@ -44,6 +44,7 @@ public class ParticipantRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable("id") String login) {
+    	System.out.println("delete");
         Participant participant = participantService.findByLogin(login);
         if (participant == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);

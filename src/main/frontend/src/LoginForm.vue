@@ -13,13 +13,23 @@
         props: ["buttonLabel"],
         data() {
             return {
-                user: {}
+                user: {},
             };
         },
         methods: {
             enter() {
-                this.$emit("submit", this.user);
+            	this.$emit("submit", this.user);
+            },
+            check(user) {
+                this.clearMessage();
+                this.$http.get('participants', user)
+                    .then(() => {
+                        this.success('Konto zostało założone. Możesz się zalogować.');
+                        this.registering = false;
+                    })
+                    .catch(response => this.failure('Błąd przy zakładaniu konta. Kod odpowiedzi: ' + response.status));
             }
+
         },
         computed: {
             labelOfTheButton() {

@@ -1,4 +1,6 @@
 <template>
+  <transition name="slide-fade">
+  
   <div>
     <new-meeting-form @added="addNewMeeting($event)"></new-meeting-form>
 
@@ -15,6 +17,7 @@
                    @unattend="removeMeetingParticipant($event)"
                    @delete="deleteMeeting($event)"></meetings-list>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -29,18 +32,35 @@
                 meetings: []
             };
         },
+        mounted() {
+            this.$http.get('meetings').then(response => {
+                this.meetings = response.body;
+            });
+        },
         methods: {
             addNewMeeting(meeting) {
-                this.meetings.push(meeting);
+                this.$http.post('meetings', meeting).then(response => {
+                    const addedMeeting = response.body;
+                    this.meetings.push(addedMeeting);
+                });
+            },
+            test(){
+            	this.$http.get('meetings').then(response => {
+            		console.log(response.body);
+                    this.meetings = response.body;
+                });
             },
             addMeetingParticipant(meeting) {
-                meeting.participants.push(this.username);
+                this.$http.post(`meetings/${meeting.id}/participants`, {login: this.username})
+                    .then(response => meeting.participants.push(response.body));
             },
             removeMeetingParticipant(meeting) {
-                meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
+                this.$http.delete(`meetings/${meeting.id}/participants`, {body: {login: this.username}} )
+                    .then(() => meeting.participants.splice(meeting.participants.map(p => p.login).indexOf(this.username), 1));
+
             },
             deleteMeeting(meeting) {
-                this.meetings.splice(this.meetings.indexOf(meeting), 1);
+                this.$http.delete(`meetings/${meeting.id}`).then(() => this.meetings.splice(this.meetings.indexOf(meeting), 1));
             }
         }
     }

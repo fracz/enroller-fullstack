@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script>
+<script> 
     import "milligram";
     import LoginForm from "./LoginForm";
     import MeetingsPage from "./meetings/MeetingsPage";
@@ -103,6 +103,47 @@
   .logo {
     vertical-align: middle;
   }
+
+
+
+  .fade-enter-active, .fade-leave-active {
+  	transition: opacity .9s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  	opacity: 0;
+  }
+
+  .slide-fade-enter-active {
+  	transition: all 1.0s ease;
+  }
+  .slide-fade-leave-active {
+  	transition: all 1.0s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+	/* .slide-fade-leave-active below version 2.1.8 */ {
+  	transform: translateX(500px);
+  	opacity: 0.1;
+  }
+  
+  .bounce-enter-active {
+  	animation: bounce-in 1s;
+  }
+  .bounce-leave-active {
+  	animation: bounce-in 1s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  } 
+
+
 
   .alert {
     padding: 10px;
