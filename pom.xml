@@ -98,7 +98,7 @@
                 <configuration>
                     <workingDirectory>src/main/frontend</workingDirectory>
                 </configuration>
-                <version>1.6</version>
+                <version>1.12.0</version>
                 <executions>
                     <!-- Install our node and npm version to run npm/node scripts-->
                     <execution>
@@ -107,7 +107,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v8.9.1</nodeVersion>
+                            <nodeVersion>v14.17.0</nodeVersion>
+                            <npmVersion>7.11.2</npmVersion>
                         </configuration>
                     </execution>
                     <!-- Install all project dependencies -->
@@ -149,11 +150,7 @@
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>src/main/frontend</directory>
-                                    <includes>
-                                        <include>dist/</include>
-                                        <include>index.html</include>
-                                    </includes>
+                                    <directory>src/main/frontend/dist</directory>
                                 </resource>
                             </resources>
                         </configuration>
