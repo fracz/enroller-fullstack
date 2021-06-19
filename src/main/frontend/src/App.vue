@@ -1,16 +1,20 @@
 <template>
   <div id="app">
     <h1>
-      <img src="./assets/logo.svg" alt="Enroller" class="logo">
+      <img src="./assets/logo.svg" alt="Enroller" class="logo" />
       System do zapisów na zajęcia
     </h1>
     <div v-if="authenticatedUsername">
-      <h2>Witaj {{ authenticatedUsername }}!
-        <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
+      <h2>
+        Witaj {{ authenticatedUsername }}!
+        <a @click="logout()" class="float-right button-outline button"
+          >Wyloguj</a
+        >
       </h2>
       <meetings-page :username="authenticatedUsername"></meetings-page>
     </div>
     <div v-else>
+
       <button @click="registering = false" :class="registering ? 'button-outline' : ''">Loguję się</button>
       <button @click="registering = true" :class="!registering ? 'button-outline' : ''">Rejestruję się</button>
       <div :class="'alert alert-' + (this.isError ? 'error' : 'success')" v-if="message">{{ message }}</div>
@@ -93,6 +97,30 @@
             }
         }
     };
+  },
+  methods: {
+    login(user) {
+      this.authenticatedUsername = user.login;
+    },
+    register(user) {
+      this.errorMessage='';
+      this.$http
+        .post("participants", user)
+        .then((response) => {
+          //udało się
+          this.wantToRegister = false;
+          this.errorMessage='';
+        })
+        .catch((response) => {
+          //nie udało się
+          this.errorMessage='Nazwa użytkownika jest zajęta';
+        });
+    },
+    logout() {
+      this.authenticatedUsername = "";
+    },
+  },
+};
 </script>
 
 <style>
