@@ -4,7 +4,6 @@
     <tr>
       <th>Nazwa spotkania</th>
       <th>Opis</th>
-      <th>Data</th>
       <th>Uczestnicy</th>
       <td></td>
     </tr>
@@ -13,11 +12,10 @@
     <tr v-for="meeting in meetings" :key="meeting.name">
       <td>{{ meeting.name }}</td>
       <td>{{ meeting.description }}</td>
-      <td>{{ meeting.date }}</td>
       <td>
         <ul v-if="meeting.participants">
           <li v-for="participant in meeting.participants" :key="participant">
-            {{ participant}}
+            {{ participant }}
           </li>
         </ul>
       </td>
@@ -38,11 +36,6 @@
 
 <script>
     export default {
-        props: ['meetings', 'username'],
-         methods: {
-            userIsEnrolled(meeting) {
-                return meeting.participants.map(p => p.login).indexOf(this.username) !== -1;
-            }
-        }
+        props: ['meetings', 'username']
     }
 </script>

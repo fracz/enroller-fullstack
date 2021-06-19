@@ -18,7 +18,7 @@
         },
         methods: {
             enter() {
-                this.$emit("submit", this.user);
+                this.$emit("login", this.user);
             }
         },
         computed: {
