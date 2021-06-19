@@ -32,7 +32,8 @@
                 authenticatedUsername: "",
                 registering: false,
                 message: '',
-                isError: false
+                isError: false,
+                meetings: []
             };
         },
         methods: {

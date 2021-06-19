@@ -1,6 +1,7 @@
 package com.company.enroller.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -16,7 +17,7 @@ public class Meeting {
     private long id;
 
     @Column
-    private String title;
+    private String name;
 
     @Column
     private String description;
@@ -24,16 +25,18 @@ public class Meeting {
     @Column
     private String date;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "meetings")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "meeting_participant", joinColumns = {@JoinColumn(name = "meeting_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "participant_login")})
     Set<Participant> participants = new HashSet<>();
 
     public long getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {
@@ -48,8 +51,8 @@ public class Meeting {
         this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setDescription(String description) {
