@@ -3,6 +3,8 @@ import App from './App.vue';
 import VueResource from "vue-resource";
 
 Vue.use(VueResource);
+
+
 Vue.http.options.root = '/api';
 
 new Vue({
