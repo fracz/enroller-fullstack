@@ -24,7 +24,7 @@ public class Meeting {
     @Column
     private String date;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToMany(mappedBy = "meetings")
     Set<Participant> participants = new HashSet<>();
 
