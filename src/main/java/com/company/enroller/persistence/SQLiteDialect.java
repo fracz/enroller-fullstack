@@ -1,26 +1,13 @@
 package com.company.enroller.persistence;
 
-/*
- * The author disclaims copyright to this source code. In place of
- * a legal notice, here is a blessing:
- *
- * May you do good and not evil.
- * May you find forgiveness for yourself and forgive others.
- * May you share freely, never taking more than you give.
- *
- */
-
-import org.hibernate.Hibernate;
 import org.hibernate.dialect.Dialect;
-import org.hibernate.dialect.function.SQLFunctionTemplate;
-import org.hibernate.dialect.function.StandardSQLFunction;
-import org.hibernate.dialect.function.VarArgsSQLFunction;
+import org.hibernate.dialect.identity.IdentityColumnSupport;
 
 import java.sql.Types;
 
 public class SQLiteDialect extends Dialect {
+
     public SQLiteDialect() {
-        super();
         registerColumnType(Types.BIT, "integer");
         registerColumnType(Types.TINYINT, "tinyint");
         registerColumnType(Types.SMALLINT, "smallint");
@@ -40,125 +27,45 @@ public class SQLiteDialect extends Dialect {
         registerColumnType(Types.BINARY, "blob");
         registerColumnType(Types.VARBINARY, "blob");
         registerColumnType(Types.LONGVARBINARY, "blob");
-        // registerColumnType(Types.NULL, "null");
         registerColumnType(Types.BLOB, "blob");
         registerColumnType(Types.CLOB, "clob");
         registerColumnType(Types.BOOLEAN, "integer");
-
-        registerFunction("concat", new VarArgsSQLFunction(Hibernate.STRING, "",
-                "||", ""));
-        registerFunction("mod", new SQLFunctionTemplate(Hibernate.INTEGER,
-                "?1 % ?2"));
-        registerFunction("substr", new StandardSQLFunction("substr",
-                Hibernate.STRING));
-        registerFunction("substring", new StandardSQLFunction("substr",
-                Hibernate.STRING));
     }
 
-    public boolean supportsIdentityColumns() {
-        return true;
-    }
-
-	/*
-	 public boolean supportsInsertSelectIdentity() {
-	 return true; // As specify in NHibernate dialect
-	 }
-	 */
-
-    public boolean hasDataTypeInIdentityColumn() {
-        return false; // As specify in NHibernate dialect
-    }
-
-	/*
-	 public String appendIdentitySelectToInsert(String insertString) {
-	 return new StringBuffer(insertString.length()+30). // As specify in NHibernate dialect
-	 append(insertString).
-	 append("; ").append(getIdentitySelectString()).
-	 toString();
-	 }
-	 */
-
-    public String getIdentityColumnString() {
-        // return "integer primary key autoincrement";
-        return "integer";
-    }
-
-    public String getIdentitySelectString() {
-        return "select last_insert_rowid()";
-    }
-
-    public boolean supportsLimit() {
-        return true;
-    }
-
-    public String getLimitString(String query, boolean hasOffset) {
-        return new StringBuffer(query.length() + 20).append(query).append(
-                hasOffset ? " limit ? offset ?" : " limit ?").toString();
-    }
-
-    public boolean supportsTemporaryTables() {
-        return true;
-    }
-
-    public String getCreateTemporaryTableString() {
-        return "create temporary table if not exists";
-    }
-
-    public boolean dropTemporaryTableAfterUse() {
-        return false;
-    }
-
-    public boolean supportsCurrentTimestampSelection() {
-        return true;
-    }
-
-    public boolean isCurrentTimestampSelectStringCallable() {
-        return false;
-    }
-
-    public String getCurrentTimestampSelectString() {
-        return "select current_timestamp";
-    }
-
-    public boolean supportsUnionAll() {
-        return true;
+    public IdentityColumnSupport getIdentityColumnSupport() {
+        return new SQLiteIdentityColumnSupport();
     }
 
     public boolean hasAlterTable() {
-        return false; // As specify in NHibernate dialect
+        return false;
     }
 
     public boolean dropConstraints() {
         return false;
     }
 
-    public String getAddColumnString() {
-        return "add column";
+    public String getDropForeignKeyString() {
+        return "";
+    }
+
+    public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable, String[] primaryKey, boolean referencesPrimaryKey) {
+        return "";
+    }
+
+    public String getAddPrimaryKeyConstraintString(String constraintName) {
+        return "";
     }
 
     public String getForUpdateString() {
         return "";
     }
 
+    public String getAddColumnString() {
+        return "add column";
+    }
+
     public boolean supportsOuterJoinForUpdate() {
         return false;
-    }
-
-    public String getDropForeignKeyString() {
-        throw new UnsupportedOperationException(
-                "No drop foreign key syntax supported by SQLiteDialect");
-    }
-
-    public String getAddForeignKeyConstraintString(String constraintName,
-                                                   String[] foreignKey, String referencedTable, String[] primaryKey,
-                                                   boolean referencesPrimaryKey) {
-        throw new UnsupportedOperationException(
-                "No add foreign key syntax supported by SQLiteDialect");
-    }
-
-    public String getAddPrimaryKeyConstraintString(String constraintName) {
-        throw new UnsupportedOperationException(
-                "No add primary key syntax supported by SQLiteDialect");
     }
 
     public boolean supportsIfExistsBeforeTableName() {

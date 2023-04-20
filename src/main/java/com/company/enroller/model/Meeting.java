@@ -12,7 +12,7 @@ import java.util.Set;
 public class Meeting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
@@ -25,7 +25,9 @@ public class Meeting {
     private String date;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "meetings")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "meeting_participant", joinColumns = {@JoinColumn(name = "meeting_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "participant_login")})
     Set<Participant> participants = new HashSet<>();
 
     public long getId() {

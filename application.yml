@@ -1,0 +1,6 @@
+spring:
+  devtools:
+    restart:
+      enabled: true  # Set to enable hot deployment
+      additional-paths: src/main/java # restart directory
+      exclude: WEB-INF/**
