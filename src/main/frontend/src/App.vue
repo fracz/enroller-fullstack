@@ -34,6 +34,15 @@ export default {
       isError: false,
     }
   },
+  mounted() {
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+    if (username && token) {
+      this.storeAuth(username, token);
+      // if token expired or user has been deleted - logout!
+      axios.get(`/api/meetings`).catch(() => this.logMeOut());
+    }
+  },
   methods: {
     register(user) {
       this.clearMessage();
@@ -47,13 +56,22 @@ export default {
     logMeIn(user) {
       this.clearMessage();
       axios.post('/api/tokens', user)
-          .then(() => {
-            this.authenticatedUsername = user.login;
+          .then((response) => {
+            const token = response.data.token;
+            this.storeAuth(user.login, token);
           })
           .catch(() => this.failure('Logowanie nieudane.'));
     },
     logMeOut() {
       this.authenticatedUsername = '';
+      delete axios.defaults.headers.common.Authorization;
+      localStorage.clear();
+    },
+    storeAuth(username, token) {
+      this.authenticatedUsername = username;
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      localStorage.setItem('username', username);
+      localStorage.setItem('token', token);
     },
     success(message) {
       this.message = message;
