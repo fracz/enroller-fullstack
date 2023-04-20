@@ -46,7 +46,11 @@ export default {
     },
     logMeIn(user) {
       this.clearMessage();
-      this.authenticatedUsername = user.login;
+      axios.post('/api/tokens', user)
+          .then(() => {
+            this.authenticatedUsername = user.login;
+          })
+          .catch(() => this.failure('Logowanie nieudane.'));
     },
     logMeOut() {
       this.authenticatedUsername = '';
