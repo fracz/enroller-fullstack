@@ -30,7 +30,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private final int tokenExpiration;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, String secret, String issuer, int tokenExpiration) {
-        super(new AntPathRequestMatcher("/tokens", HttpMethod.POST.name()));
+        super(new AntPathRequestMatcher("/api/tokens", HttpMethod.POST.name()));
         this.authenticationManager = authenticationManager;
         this.secret = secret;
         this.issuer = issuer;
