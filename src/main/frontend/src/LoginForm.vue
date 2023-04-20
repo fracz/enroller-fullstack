@@ -1,30 +1,27 @@
 <template>
   <form @submit.prevent="enter()">
     <label>Login</label>
-    <input type="text" v-model="user.login">
+    <input type="text" v-model="user.username">
     <label>Hasło</label>
     <input type="password" v-model="user.password">
-    <button type="submit">{{ labelOfTheButton }}</button>
+    <button type="submit">{{ buttonLabel || 'Zaloguj się' }}</button>
   </form>
 </template>
 
 <script>
-    export default {
-        props: ["buttonLabel"],
-        data() {
-            return {
-                user: {}
-            };
-        },
-        methods: {
-            enter() {
-                this.$emit("login", this.user);
-            }
-        },
-        computed: {
-            labelOfTheButton() {
-                return this.buttonLabel || 'Zaloguj się';
-            }
-        }
+export default {
+  props: {
+    buttonLabel: String
+  },
+  data() {
+    return {
+      user: {}
     };
+  },
+  methods: {
+    enter() {
+      this.$emit("login", this.user);
+    }
+  }
+}
 </script>

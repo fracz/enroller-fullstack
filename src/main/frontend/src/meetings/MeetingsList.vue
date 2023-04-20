@@ -4,8 +4,8 @@
     <tr>
       <th>Nazwa spotkania</th>
       <th>Opis</th>
-      <th>Uczestnicy</th>
-      <td></td>
+      <th>Zapisani</th>
+      <th>Akcje</th>
     </tr>
     </thead>
     <tbody>
@@ -36,7 +36,10 @@
 </template>
 
 <script>
-    export default {
-        props: ['meetings', 'username']
-    }
+export default {
+  props: {
+    meetings: Array,
+    username: String,
+  }
+}
 </script>
