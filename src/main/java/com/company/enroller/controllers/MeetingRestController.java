@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/meetings")
+@RequestMapping("/api/meetings")
 public class MeetingRestController {
 
     @Autowired
