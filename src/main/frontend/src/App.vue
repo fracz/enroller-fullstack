@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     logMeIn(user) {
-      this.authenticatedUsername = user.username;
+      this.authenticatedUsername = user.login;
     },
     logMeOut() {
       this.authenticatedUsername = '';

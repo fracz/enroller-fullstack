@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="enter()">
     <label>Login</label>
-    <input type="text" v-model="user.username">
+    <input type="text" v-model="user.login">
     <label>Hasło</label>
     <input type="password" v-model="user.password">
     <button type="submit">{{ buttonLabel || 'Zaloguj się' }}</button>
