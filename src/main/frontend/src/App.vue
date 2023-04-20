@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <h1>Witaj w systemie do zapisów na zajęcia</h1>
 
     <div v-if="authenticatedUsername">
@@ -41,9 +41,5 @@ export default {
 #app {
   max-width: 1000px;
   margin: 0 auto;
-}
-
-.logo {
-  vertical-align: middle;
 }
 </style>
