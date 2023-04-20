@@ -3,7 +3,7 @@ ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
 ADD . $HOME
-RUN mvn package
+RUN mvn package && rm -fr src/main/frontend/node*
 
 FROM amazoncorretto:17
 
