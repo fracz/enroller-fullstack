@@ -9,3 +9,4 @@
 *.iml
 src/main/resources/public/
 *.db
+node_modules/
