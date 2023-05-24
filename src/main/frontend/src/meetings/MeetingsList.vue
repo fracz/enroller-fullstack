@@ -9,13 +9,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="meeting in meetings" :key="meeting.name">
-      <td>{{ meeting.name }}</td>
+    <tr v-for="meeting in meetings" :key="meeting.title">
+      <td>{{ meeting.title }}</td>
       <td>{{ meeting.description }}</td>
       <td>
         <ul v-if="meeting.participants">
           <li v-for="participant in meeting.participants" :key="participant">
-            {{ participant }}
+            {{ participant}}
           </li>
         </ul>
       </td>
