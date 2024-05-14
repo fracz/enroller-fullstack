@@ -28,15 +28,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.4.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.6.5.Final</version>
@@ -85,7 +76,7 @@
                 <configuration>
                     <workingDirectory>src/main/frontend</workingDirectory>
                 </configuration>
-                <version>1.12.1</version>
+                <version>1.15.0</version>
                 <executions>
                     <!-- Install our node and npm version to run npm/node scripts-->
                     <execution>
@@ -94,8 +85,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v14.17.0</nodeVersion>
-                            <npmVersion>7.11.2</npmVersion>
+                            <nodeVersion>v18.19.0</nodeVersion>
+                            <npmVersion>10.2.3</npmVersion>
                         </configuration>
                     </execution>
                     <!-- Install all project dependencies -->
@@ -127,7 +118,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy Vue.js frontend content</id>
+                        <id>copy frontend content</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -137,7 +128,7 @@
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
-                                    <directory>src/main/frontend/dist</directory>
+                                    <directory>src/main/frontend/build</directory>
                                 </resource>
                             </resources>
                         </configuration>
