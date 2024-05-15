@@ -10,6 +10,7 @@
         <property name="connection.driver_class">org.sqlite.JDBC</property>
         <property name="connection.url">jdbc:sqlite:enroller.db</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.connection.autocommit">true</property>
         <property name="connection.username"></property>
         <property name="connection.password"></property>
 
