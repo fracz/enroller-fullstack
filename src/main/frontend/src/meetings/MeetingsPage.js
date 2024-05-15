@@ -32,24 +32,38 @@ export default function MeetingsPage({username}) {
         }
     }
 
-    function handleSignIn(meeting) {
-        const nextMeetings = meetings.map(m => {
-            if (m === meeting) {
-                m.participants = [...m.participants, username];
-            }
-            return m;
+    async function handleSignIn(meeting) {
+        const response = await fetch(`/api/meetings/${meeting.id}/participants`, {
+            method: 'POST',
+            body: JSON.stringify({login: username}),
+            headers: {'content-type': 'application/json'}
         });
-        setMeetings(nextMeetings);
+        if (response.ok) {
+            const newParticipants = await response.json();
+            const nextMeetings = meetings.map(m => {
+                if (m === meeting) {
+                    m.participants = newParticipants;
+                }
+                return m;
+            });
+            setMeetings(nextMeetings);
+        }
     }
 
-    function handleSignOut(meeting) {
-        const nextMeetings = meetings.map(m => {
-            if (m === meeting) {
-                m.participants = m.participants.filter(u => u !== username);
-            }
-            return m;
+    async function handleSignOut(meeting) {
+        const response = await fetch(`/api/meetings/${meeting.id}/participants/${username}`, {
+            method: 'DELETE',
         });
-        setMeetings(nextMeetings);
+        if (response.ok) {
+            const newParticipants = await response.json();
+            const nextMeetings = meetings.map(m => {
+                if (m === meeting) {
+                    m.participants = m.participants = newParticipants;
+                }
+                return m;
+            });
+            setMeetings(nextMeetings);
+        }
     }
 
     useEffect(() => {
