@@ -6,10 +6,17 @@ export default function MeetingsPage({username}) {
     const [meetings, setMeetings] = useState([]);
     const [addingNewMeeting, setAddingNewMeeting] = useState(false);
 
-    function handleNewMeeting(meeting) {
-        const nextMeetings = [...meetings, meeting];
-        setMeetings(nextMeetings);
-        setAddingNewMeeting(false);
+    async function handleNewMeeting(meeting) {
+        const response = await fetch('/api/meetings', {
+            method: 'POST',
+            body: JSON.stringify(meeting),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) {
+            const nextMeetings = [...meetings, meeting];
+            setMeetings(nextMeetings);
+            setAddingNewMeeting(false);
+        }
     }
 
     function handleDeleteMeeting(meeting) {
