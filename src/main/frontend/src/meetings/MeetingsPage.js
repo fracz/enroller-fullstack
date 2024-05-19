@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import NewMeetingForm from "./NewMeetingForm";
 import MeetingsList from "./MeetingsList";
 
@@ -40,6 +40,7 @@ export default function MeetingsPage({username}) {
         setMeetings(nextMeetings);
     }
 
+
     function handleSignOut(meeting) {
         const nextMeetings = meetings.map(m => {
             if (m === meeting) {
@@ -49,7 +50,16 @@ export default function MeetingsPage({username}) {
         });
         setMeetings(nextMeetings);
     }
-
+    useEffect(() => {
+        const fetchMeetings = async () => {
+            const response = await fetch(`/api/meetings`);
+            if (response.ok) {
+                const meetings = await response.json();
+                setMeetings(meetings);
+            }
+        };
+        fetchMeetings();
+    }, []);
     return (
         <div>
             <h2>Zajęcia ({meetings.length})</h2>
