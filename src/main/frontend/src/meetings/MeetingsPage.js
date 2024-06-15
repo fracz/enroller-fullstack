@@ -40,7 +40,16 @@ export default function MeetingsPage({username}) {
         }
     }
 
-    function handleSignIn(meeting) {
+    async function handleSignIn(meeting) {
+    const newUsers = new Map();
+    newUsers.set('login',username);
+    const response = await fetch(`/api/meetings/${meeting.id}/participants`,{
+        method: 'POST',
+        body: JSON.stringify(Object.fromEntries(newUsers)),
+        headers: { 'Content-Type': 'application/json'}
+        });
+
+    if(response.ok){
         const nextMeetings = meetings.map(m => {
             if (m === meeting) {
                 m.participants = [...m.participants, username];
@@ -48,10 +57,14 @@ export default function MeetingsPage({username}) {
             return m;
         });
         setMeetings(nextMeetings);
+        }
     }
 
 
-    function handleSignOut(meeting) {
+    async function handleSignOut(meeting) {
+    const response = await fetch(`/api/meetings/${meeting.id}/participants/${username}`,{
+         method: 'DELETE'});
+      if(response.ok){
         const nextMeetings = meetings.map(m => {
             if (m === meeting) {
                 m.participants = m.participants.filter(u => u !== username);
@@ -59,6 +72,7 @@ export default function MeetingsPage({username}) {
             return m;
         });
         setMeetings(nextMeetings);
+        }
     }
     useEffect(() => {
         const fetchMeetings = async () => {
