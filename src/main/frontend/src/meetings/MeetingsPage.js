@@ -17,26 +17,6 @@ export default function MeetingsPage({username}) {
         setMeetings(nextMeetings);
     }
 
-    function handleSignIn(meeting) {
-        const nextMeetings = meetings.map(m => {
-            if (m === meeting) {
-                m.participants = [...m.participants, username];
-            }
-            return m;
-        });
-        setMeetings(nextMeetings);
-    }
-
-    function handleSignOut(meeting) {
-        const nextMeetings = meetings.map(m => {
-            if (m === meeting) {
-                m.participants = m.participants.filter(u => u !== username);
-            }
-            return m;
-        });
-        setMeetings(nextMeetings);
-    }
-
     return (
         <div>
             <h2>Zajęcia ({meetings.length})</h2>
@@ -47,9 +27,7 @@ export default function MeetingsPage({username}) {
             }
             {meetings.length > 0 &&
                 <MeetingsList meetings={meetings} username={username}
-                              onDelete={handleDeleteMeeting}
-                              onSignIn={handleSignIn}
-                              onSignOut={handleSignOut}/>}
+                              onDelete={handleDeleteMeeting}/>}
         </div>
     )
 }
